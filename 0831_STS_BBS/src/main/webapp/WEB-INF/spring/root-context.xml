@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<context:annotation-config/>
+	
+	<context:property-placeholder 
+	location="classpath:props/jdbc.properties"/>
+	
+	<bean id="ds" 
+	class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="${driver}"/>
+		<property name="url" value="${url}"/>
+		<property name="username" value="${user}"/>
+		<property name="password" value="${pwd}"/>
+	</bean>
+	
+	<bean id="sqlSessionFactory" 
+	class="org.mybatis.spring.SqlSessionFactoryBean">
+	  <property name="dataSource" ref="ds" />
+	  <property name="mapperLocations" 
+	  	value="classpath:mybatis/mapper/*.xml" />
+	</bean>
+	
+	<bean id="sqlSession" 
+	class="org.mybatis.spring.SqlSessionTemplate">
+	  <constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="bbsDao" class="mybatis.dao.BbsDAO"/>
+</beans>

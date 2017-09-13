@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<context:component-scan base-package="com.increpas.bbs" />
+	
+	<!--  스프링환경에서 파일첨부된 내용을 처리하기 위해
+		반드시 다음과 같은 빈을 정의해야 한다. -->
+	<beans:bean id="multipartResolver"
+	class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value="utf-8"/>
+		<beans:property name="maxUploadSize" value="-1"/>
+	</beans:bean>
+
+    <!-- 각 bean객체들을 선언한다. -->
+    <beans:bean name="/list.inc" class="spring.control.ListControl"/>
+    
+    <beans:bean id="write" class="spring.control.WriteControl">
+    	<beans:property name="uploadPath" value="/upload"/>
+    </beans:bean>
+    
+    <beans:bean id="view" class="spring.control.ViewControl"/>
+    <beans:bean id="answer" class="spring.control.AnswerControl">
+    	<beans:property name="uploadPath" value="/upload"/>
+    </beans:bean>
+    <beans:bean id="edit" class="spring.control.EditControl">
+    	<beans:property name="uploadPath" value="/upload"/>
+    </beans:bean>
+    <beans:bean id="delete" class="spring.control.DelControl"/>
+	
+</beans:beans>
