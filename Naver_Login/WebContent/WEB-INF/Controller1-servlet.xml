@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd 
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    
+    <context:annotation-config/>
+        <bean id="jsonHttpMessageConverter" 
+class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    	<property name="messageConverters">
+    		<list>
+    			<ref bean="jsonHttpMessageConverter"/>
+    		</list>
+    	</property>
+    </bean>
+    
+    <!-- spring.control이라는 패키지에 있는 클래스들 중
+      @Controller로 지정된 클래스들을 빈객체로 인식함! -->
+    <context:component-scan base-package="spring.control"/>
+    
+    <!-- View Resolver지정 -->
+    <bean 
+    class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    	<property name="prefix" value="/jsp/"/>
+    	<property name="suffix" value=".jsp"/>
+    </bean>    
+</beans>     
+
+
+
+
+
+
+
+   
